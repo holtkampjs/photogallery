@@ -23,7 +23,8 @@ SOFTWARE.
 '''
 
 #!flask/bin/python
-from flask import Flask, jsonify, abort, request, make_response, url_for
+from crypt import methods
+from flask import Flask, jsonify, abort, request, make_response, url_for, send_file
 from flask import render_template, redirect
 import os
 import time
@@ -49,7 +50,7 @@ DB_HOSTNAME="database-2.czivfufzq0kh.us-east-1.rds.amazonaws.com"
 #DB_HOSTNAME="photogallerydb.abc.us-east-1.rds.amazonaws.com"
 DB_USERNAME = 'admin'
 DB_PASSWORD = 'CloudyWithAChance422'
-DB_NAME='DATABASE'
+DB_NAME='photogallery'
 #DB_NAME = 'photogallerydb'
 
 
@@ -100,7 +101,7 @@ def home_page():
                         db = DB_NAME, 
             port = 3306)
     cursor = conn.cursor ()
-    cursor.execute("SELECT * FROM photogallerydb.photogallery2;")
+    cursor.execute("SELECT * FROM photogallery.photogallery2;")
     results = cursor.fetchall()
     
     items=[]
@@ -146,7 +147,7 @@ def add_photo():
             port = 3306)
             cursor = conn.cursor ()
 
-            statement = "INSERT INTO photogallerydb.photogallery2 \
+            statement = "INSERT INTO photogallery.photogallery2 \
                         (CreationTime,Title,Description,Tags,URL,EXIF) \
                         VALUES ("+\
                         "'"+str(timestamp)+"', '"+\
@@ -174,7 +175,7 @@ def view_photo(photoID):
             port = 3306)
     cursor = conn.cursor ()
 
-    cursor.execute("SELECT * FROM photogallerydb.photogallery2 \
+    cursor.execute("SELECT * FROM photogallery.photogallery2 \
                     WHERE PhotoID="+str(photoID)+";")
 
     results = cursor.fetchall()
@@ -207,12 +208,12 @@ def search_page():
             port = 3306)
     cursor = conn.cursor ()
     
-    cursor.execute("SELECT * FROM photogallerydb.photogallery2 \
+    cursor.execute("SELECT * FROM photogallery.photogallery2 \
                     WHERE Title LIKE '%"+query+ "%' \
                     UNION SELECT * FROM \
-                    photogallerydb.photogallery2 WHERE \
+                    photogallery.photogallery2 WHERE \
                     Description LIKE '%"+query+ "%' UNION \
-                    SELECT * FROM photogallerydb.photogallery2 \
+                    SELECT * FROM photogallery.photogallery2 \
                     WHERE Tags LIKE '%"+query+"%' ;")
 
     results = cursor.fetchall()
@@ -233,6 +234,30 @@ def search_page():
     return render_template('search.html', photos=items, 
                             searchquery=query)
 
+@app.route('/download')
+def download_file():
+    pass
+    #path = "html2pdf.pdf"
+	#path = should be path of file we want to download
+
+	#path = "simple.docx" 
+	#path = "sample.txt"
+	#return send_file(path, as_attachment=True)
+    
+@app.route('/login', methods=['GET', 'POST'])
+def login():
+    if request.method == 'GET':
+        return render_template('login2.html')
+    
+    if request.method == 'POST':
+        username, password = request.get_json()
+        # Check database
+        if True:
+            return json.dumps({'success': True})
+        # else
+        #     return json.dumps({'success': False})
+
+        
 if __name__ == '__main__':
     app.run(debug=True, host="0.0.0.0", port=5000)
 
