@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Login Form</title>
+    <link rel="stylesheet" type="text/css" href="css/style.css">
+    <script type="text/javascript" src="assets/plugins/jquery.min.js"></script>
+</head>
+
+<body>
+    <h2>Login Page</h2><br>
+    <div class="login">
+        <form id="login" method="get" action="login.php">
+            <label><b>User Name</b></label>
+            <input type="text" name="Uname" id="Uname" placeholder="Username">
+            <br><br>
+            <label><b>Password</b></label>
+            <input type="Password" name="Pass" id="Pass" placeholder="Password">
+            <br><br>
+            <input type="button" name="log" id="log" value="Log In Here">
+            <br><br>
+        </form>
+    </div>
+</body>
+
+<script>
+    $(function () {
+        const username = $('#Uname').val();
+        const password = $('#Pass').val();
+
+        $.post({
+            url: 'http://34.228.143.112/login',
+            data: {
+                username: username,
+                password: password
+            },
+            success: data => {
+                if (data.success) {
+                    window.location.href = 'http://34.228.143.112/';
+                    return;
+                } else {
+                    alert("Login failure");
+                }
+
+            },
+            error: (jqXHR, textStatus, errorThrown) => console.log('Rejected')
+        })
+    });
+</script>
+
+</html>
+</body>
+
+</html>
