@@ -246,7 +246,7 @@ def download_file():
 @app.route('/login', methods=['GET', 'POST'])
 def login():
     if request.method == 'GET':
-        return render_template('login2.html')
+        return render_template('login.html')
     
     if request.method == 'POST':
         username, password = request.get_json()
