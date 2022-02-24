@@ -101,7 +101,7 @@ def home_page():
                         db = DB_NAME, 
             port = 3306)
     cursor = conn.cursor ()
-    cursor.execute("SELECT * FROM photogallery.photogallery2;")
+    cursor.execute("SELECT * FROM phot  ogallery2;")
     results = cursor.fetchall()
     
     items=[]
@@ -239,7 +239,6 @@ def download_file():
     pass
     #path = "html2pdf.pdf"
 	#path = should be path of file we want to download
-
 	#path = "simple.docx" 
 	#path = "sample.txt"
 	#return send_file(path, as_attachment=True)
@@ -251,11 +250,10 @@ def login():
     
     if request.method == 'POST':
         username, password = request.get_json()
-        # Check database
-        if True:
+        if username == "admin" and password == "password":
             return json.dumps({'success': True})
-        # else
-        #     return json.dumps({'success': False})
+        else:
+            return json.dumps({'success': False})
 
         
 if __name__ == '__main__':
