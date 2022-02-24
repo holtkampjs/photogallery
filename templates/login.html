@@ -25,26 +25,28 @@
 
 <script>
     window.onload = () => {
-        const username = document.getElementById('Uname').value;
-        const password = document.getElementById('Pass').value;
+        document.getElementById('log').addEventListener('click', () => {
+            const username = document.getElementById('Uname').value;
+            const password = document.getElementById('Pass').value;
 
-        fetch({
-            url: 'http://34.228.143.112/login',
-            method: 'POST',
-            body: {
-                username: username,
-                password: password
-            },
-            success: data => {
-                if (data.success) {
-                    window.location.href = 'http://34.228.143.112/';
-                    return;
-                } else {
-                    alert("Login failure");
-                }
+            fetch({
+                url: 'http://34.228.143.112/login',
+                method: 'POST',
+                body: {
+                    username: username,
+                    password: password
+                },
+                success: data => {
+                    if (data.success) {
+                        window.location.href = 'http://34.228.143.112/';
+                        return;
+                    } else {
+                        alert("Login failure");
+                    }
 
-            },
-            error: () => console.log('Rejected')
+                },
+                error: () => console.log('Rejected')
+            });
         });
     }
 </script>
