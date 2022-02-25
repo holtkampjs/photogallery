@@ -249,7 +249,10 @@ def login():
         return render_template('login.html')
     
     if request.method == 'POST':
-        return json.dumps({'success': True})
+        return jsonify(
+                success="true"
+        )
+
         
         # username, password = request.get_json()
         # if username == "admin" and password == "password":

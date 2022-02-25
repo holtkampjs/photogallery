@@ -38,13 +38,14 @@
                     username: username,
                     password: password
                 }
-            }).then(data => {
-                if (data.success) {
-                    window.location.href = 'http://34.228.143.112/';
-                    return;
-                } else {
-                    alert("Login failure");
-                }
+            }).then(response => {
+		    response.json().then(json => {
+			    if (json.success === "true") {
+				    window.location.href = 'http://34.228.143.112/';
+			    } else {
+				    alert("Login failed");
+			    }
+		    });
             }).catch(() => alert('rejected'));
         });
     }
