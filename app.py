@@ -234,9 +234,9 @@ def search_page():
     return render_template('search.html', photos=items, 
                             searchquery=query)
 
-@app.route('/download')
-def download_file():
-    pass
+#@app.route('/download')
+#def download_file():
+#    pass
     #path = "html2pdf.pdf"
 	#path = should be path of file we want to download
 	#path = "simple.docx" 
