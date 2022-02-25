@@ -26,18 +26,19 @@
 <script>
     window.onload = () => {
         document.getElementById('log').addEventListener('click', () => {
-            const username = document.getElementById('Uname').value;
-            const password = document.getElementById('Pass').value;
-
-            fetch('/login', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: {
+		const username = document.getElementById('Uname').value;
+		const password = document.getElementById('Pass').value;
+		let payload =  {
                     username: username,
                     password: password
                 }
+
+            fetch('/login', {
+		    method: 'POST',
+		    headers: {
+			    'Content-Type': 'application/json'
+		    },
+		    body: JSON.stringify(payload)
             }).then(response => {
 		    response.json().then(json => {
 			    if (json.success === "true") {
