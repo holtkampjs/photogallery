@@ -51,9 +51,7 @@
               <div class="cbp-caption">
                 <div class="cbp-caption-defaultWrap 
                   theme-portfolio-active-wrap">
-                  <a href="{{p.URL}}" download>
-                    <img src="{{p.URL}}" alt="">
-                  </a>
+                  <img src="{{p.URL}}" alt="">
                   <div class="theme-icons-wrap theme-portfolio-lightbox">
                     <a class="cbp-lightbox" href="{{p.URL}}" 
                       data-title="Portfolio">
@@ -70,6 +68,11 @@
                 <span class="theme-portfolio-subtitle">
                 {{p.CreationTime}}</span>
               </div>
+            </div>
+            <div>
+              <a href="{{p.URL}}" download>
+                <button type=button>Download</button>
+              </a>
             </div>
             {% endfor %}
 
