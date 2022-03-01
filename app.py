@@ -233,15 +233,6 @@ def search_page():
     print(items)
     return render_template('search.html', photos=items, 
                             searchquery=query)
-
-#@app.route('/download')
-#def download_file():
-#    pass
-    #path = "html2pdf.pdf"
-	#path = should be path of file we want to download
-	#path = "simple.docx" 
-	#path = "sample.txt"
-	#return send_file(path, as_attachment=True)
     
 @app.route('/login', methods=['GET', 'POST'])
 def login():
@@ -252,15 +243,9 @@ def login():
         username = request.json['username']
         password = request.json['password']
         if (username == 'admin' and password == 'password'):
-            return jsonify(
-                    success="true"
-                    )
+            return jsonify(success="true")
         else:
-            return jsonify(
-                    success="false"
-                    )
-
-         
+            return jsonify(success="false")
 
         
 if __name__ == '__main__':
