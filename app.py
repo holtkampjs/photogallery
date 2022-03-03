@@ -126,7 +126,8 @@ def add_photo():
 
             table.put_item(
             Item={
-                    "PhotoID": str(int(ts*1000)),
+                    "userID": 22,
+                    "username": "Bob",
                     "CreationTime": timestamp,
                     "Title": title,
                     "Description": description,
