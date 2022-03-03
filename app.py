@@ -37,16 +37,17 @@ app = Flask(__name__, static_url_path="")
 
 UPLOAD_FOLDER = os.path.join(app.root_path,'media')
 ALLOWED_EXTENSIONS = set(['png', 'jpg', 'jpeg'])
-AWS_ACCESS_KEY="<enter>"
-AWS_SECRET_KEY="<enter>+0vqOmhI3ObEtIvQ+jmAkh/"
+AWS_ACCESS_KEY="AKIAUDOK4ZBBZ5ONKO7X"
+# AWS_SECRET_KEY="<enter>+0vqOmhI3ObEtIvQ+jmAkh/"
+AWS_SECRET_KEY="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"
 REGION="us-east-1"
-BUCKET_NAME="<enter>"
+BUCKET_NAME="elasticbeanstalk-us-east-1-282282739779"
 
 dynamodb = boto3.resource('dynamodb', aws_access_key_id=AWS_ACCESS_KEY,
                             aws_secret_access_key=AWS_SECRET_KEY,
                             region_name=REGION)
 
-table = dynamodb.Table('PhotoGallery')
+table = dynamodb.Table('users')
 
 
 def allowed_file(filename):
