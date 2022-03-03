@@ -4,17 +4,17 @@
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <title>Photo Gallery</title>
-  <meta name="viewport" content="width=device-width, 
+  <meta name="viewport" content="width=device-width,
       minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
-  <link href="{{ url_for('static', filename='assets/plugins/bootstrap/css/bootstrap.min.css') }}" 
+  <link href="{{ url_for('static', filename='assets/plugins/bootstrap/css/bootstrap.min.css') }}"
       rel="stylesheet" type="text/css" />
-  <link href="{{ url_for('static', filename='assets/plugins/font-awesome/css/font-awesome.min.css' }}" 
+  <link href="{{ url_for('static', filename='assets/plugins/font-awesome/css/font-awesome.min.css') }}"
         rel="stylesheet" type="text/css" />
-  <link href="{{ url_for('static', filename='assets/plugins/themify/themify.css' }}"
+  <link href="{{ url_for('static', filename='assets/plugins/themify/themify.css') }}"
         rel="stylesheet" type="text/css" />
-  <link href="{{ url_for('static', filename='assets/plugins/cubeportfolio/css/cubeportfolio.min.css' }}"
+  <link href="{{ url_for('static', filename='assets/plugins/cubeportfolio/css/cubeportfolio.min.css') }}"
         rel="stylesheet" type="text/css" />
-  <link href="{{ url_for('static', filename='assets/css/global.css' }}" rel="stylesheet" type="text/css"/>
+  <link href="{{ url_for('static', filename='assets/css/global.css') }}" rel="stylesheet" type="text/css"/>
 
   <script type="text/javascript" src="{{ url_for('static', filename='assets/plugins/jquery.min.js') }}">
   </script>
@@ -34,7 +34,7 @@
             <div class="col-md-12">
               <div class="blog-grid-content">
                 <form method='get' action="/search">
-                  <input type="text" name="query" id="query" 
+                  <input type="text" name="query" id="query"
                   class="form-control" placeholder="Search photos">
               </div>
             </div>
@@ -46,16 +46,16 @@
         <div class="theme-portfolio">
           <div id="portfolio-4-col-grid" class="cbp">
             {% for p in photos %}
-            <div class="cbp-item idea web-design theme-portfolio-item-v2 
+            <div class="cbp-item idea web-design theme-portfolio-item-v2
               theme-portfolio-item-xs">
               <div class="cbp-caption">
-                <div class="cbp-caption-defaultWrap 
+                <div class="cbp-caption-defaultWrap
                   theme-portfolio-active-wrap">
                   <img src="{{p.URL}}" alt="">
                   <div class="theme-icons-wrap theme-portfolio-lightbox">
-                    <a class="cbp-lightbox" href="{{p.URL}}" 
+                    <a class="cbp-lightbox" href="{{p.URL}}"
                       data-title="Portfolio">
-                      <i class="theme-icons theme-icons-white-bg 
+                      <i class="theme-icons theme-icons-white-bg
                         theme-icons-sm radius-3 icon-focus"></i>
                     </a>
                   </div>
@@ -79,14 +79,14 @@
       </div>
     </div>
   </div>
-  <script type="text/javascript" 
-    src="{{ url_for('static', filename='assets/plugins/bootstrap/js/bootstrap.min.js' }}"></script>
-  <script type="text/javascript" 
-    src="{{ url_for('static', filename='assets/plugins/cubeportfolio/js/jquery.cubeportfolio.min.js' }}">
+  <script type="text/javascript"
+    src="{{ url_for('static', filename='assets/plugins/bootstrap/js/bootstrap.min.js') }}"></script>
+  <script type="text/javascript"
+    src="{{ url_for('static', filename='assets/plugins/cubeportfolio/js/jquery.cubeportfolio.min.js') }}">
   </script>
-  <script type="text/javascript" 
-    src="{{ url_for('static', filename='assets/scripts/app.js' }}"></script>
-  <script type="text/javascript" 
-    src="{{ url_for('static', filename='assets/scripts/portfolio/portfolio-4-col-grid.js' }}"></script>
+  <script type="text/javascript"
+    src="{{ url_for('static', filename='assets/scripts/app.js') }}"></script>
+  <script type="text/javascript"
+    src="{{ url_for('static', filename='assets/scripts/portfolio/portfolio-4-col-grid.js') }}"></script>
 </body>
 </html>
