@@ -26,7 +26,7 @@ SOFTWARE.
 from flask import Flask, jsonify, abort, request, make_response, url_for
 from flask import render_template, redirect
 import os
-import boto3    
+import boto3
 import time
 import datetime
 from boto3.dynamodb.conditions import Key, Attr
@@ -67,10 +67,10 @@ def getExifData(path_name):
     tags = exifread.process_file(f)
     ExifData={}
     for tag in tags.keys():
-        if tag not in ('JPEGThumbnail', 
-                        'TIFFThumbnail', 
-                        'Filename', 
-                        'EXIF MakerNote'):            
+        if tag not in ('JPEGThumbnail',
+                        'TIFFThumbnail',
+                        'Filename',
+                        'EXIF MakerNote'):
             key="%s"%(tag)
             val="%s"%(tags[tag])
             ExifData[key]=val
@@ -79,15 +79,15 @@ def getExifData(path_name):
 def s3uploading(filename, filenameWithPath):
     s3 = boto3.client('s3', aws_access_key_id=AWS_ACCESS_KEY,
                             aws_secret_access_key=AWS_SECRET_KEY)
-                       
+
     bucket = BUCKET_NAME
     path_filename = "photos/" + filename
-    print path_filename
-    s3.upload_file(filenameWithPath, bucket, path_filename)  
-    s3.put_object_acl(ACL='public-read', 
+    print(path_filename)
+    s3.upload_file(filenameWithPath, bucket, path_filename)
+    s3.put_object_acl(ACL='public-read',
                 Bucket=bucket, Key=path_filename)
     return "http://"+BUCKET_NAME+\
-        ".s3-website-us-east-1.amazonaws.com/"+ path_filename  
+        ".s3-website-us-east-1.amazonaws.com/"+ path_filename
 
 @app.route('/', methods=['GET', 'POST'])
 def home_page():
@@ -100,7 +100,7 @@ def home_page():
 
 @app.route('/add', methods=['GET', 'POST'])
 def add_photo():
-    if request.method == 'POST':    
+    if request.method == 'POST':
         uploadedFileURL=''
 
         file = request.files['imagefile']
@@ -108,14 +108,14 @@ def add_photo():
         tags = request.form['tags']
         description = request.form['description']
 
-        print title,tags,description
+        print(title,tags,description)
         if file and allowed_file(file.filename):
             filename = file.filename
-            filenameWithPath = os.path.join(UPLOAD_FOLDER, 
+            filenameWithPath = os.path.join(UPLOAD_FOLDER,
                                         filename)
-            print filenameWithPath
+            print(filenameWithPath)
             file.save(filenameWithPath)
-            uploadedFileURL = s3uploading(filename, 
+            uploadedFileURL = s3uploading(filename,
                                         filenameWithPath);
             ExifData=getExifData(filenameWithPath)
             ts=time.time()
@@ -150,20 +150,20 @@ def view_photo(photoID):
     tags=items[0]['Tags'].split(',')
     exifdata=json.loads(items[0]['ExifData'])
 
-    return render_template('photodetail.html', 
+    return render_template('photodetail.html',
             photo=items[0], tags=tags, exifdata=exifdata)
 
 @app.route('/search', methods=['GET'])
 def search_page():
-    query = request.args.get('query', None)    
-    
+    query = request.args.get('query', None)
+
     response = table.scan(
-        FilterExpression=Attr('Title').contains(str(query)) | 
-                        Attr('Description').contains(str(query)) | 
+        FilterExpression=Attr('Title').contains(str(query)) |
+                        Attr('Description').contains(str(query)) |
                         Attr('Tags').contains(str(query))
     )
     items = response['Items']
-    return render_template('search.html', 
+    return render_template('search.html',
             photos=items, searchquery=query)
 
 if __name__ == '__main__':
