@@ -96,7 +96,9 @@ def home_page():
     if not 'username' in session:
         return redirect('/login')
 
-    response = table.scan()
+    response = table.scan(
+        FilterExpression=Attr('username').eq(session['username'])
+    )
 
     items = response['Items']
     print(items)
@@ -133,6 +135,7 @@ def add_photo():
                     "PhotoID": str(int(ts*1000)),
                     "CreationTime": timestamp,
                     "Title": title,
+                    "username": session['username'],
                     "Description": description,
                     "Tags": tags,
                     "URL": uploadedFileURL,
