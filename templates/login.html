@@ -11,6 +11,11 @@
 </head>
 
 <body>
+  {% if error %}
+  <div class="alert alert-danger" style="width:500px;text-align: center;" role="alert">
+    {{ error }}
+  </div>
+  {% endif %}
   <form id="login" method="post" action="/check">
     <div class="container" style = "width: 400px; float:left; height:250px; margin:10px">
       <h1>Login Page</h1><br>
@@ -20,7 +25,9 @@
       <label><b>Password</b></label>
       <input type="Password" name="password" placeholder="Password">
       <br><br>
-      <input type="submit" name="log" id="log" value="Log In Here">
+      <input type="submit" name="log" id="log" value="Log In">
+      <br><br>
+      <a href="/signup">Don't have an account? Click here to signup.</a>
       <br><br>
     </div>
   </form>
