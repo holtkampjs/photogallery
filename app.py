@@ -167,7 +167,11 @@ def search_page():
     return render_template('search.html',
             photos=items, searchquery=query)
 
-@app.route('/signup', methods=['POST'])
+@app.route('/signup')
+def signup():
+    return render_template('signup.html')
+
+@app.route('/register', methods=['POST'])
 def signup():
     if request.method == 'POST':
         username = request.form['username']
