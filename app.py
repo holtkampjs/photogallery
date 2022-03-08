@@ -203,7 +203,7 @@ def check():
         password = request.form['password']
 
         table2 = dynamodb.Table('users')
-        response = table2.query(
+        response = table2.scan(
             FilterExpression=Attr('username').eq(username)
         )
 
