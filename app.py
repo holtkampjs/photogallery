@@ -167,5 +167,51 @@ def search_page():
     return render_template('search.html',
             photos=items, searchquery=query)
 
+@app.route('/signup', methods=['POST'])
+def signup():
+    if request.method == 'POST':
+        username = request.form['username']
+        password = request.form['password']
+        password_repeat = request.form['psw-repeat']
+
+        if password == password_repeat:
+    
+            table2 = dynamodb.Table('users')
+            ts=time.time() 
+            
+            table2.put_item(
+                Item={
+                    'userID': str(int(ts*1000)),
+                    'username': username,
+                    'password': password
+                }
+            )
+            return render_template('login.html')
+    return render_template('signup.html')
+
+@app.route('/login')
+def login():
+    return render_template('login.html')
+
+@app.route('/check', methods = ['POST'])
+def check():
+    if request.method == 'POST':
+
+        username = request.form['username']
+        password = request.form['password']
+
+        table2 = dynamodb.Table('users')
+        response = table.query(
+            KeyConditionExpression=Key('username').eq(username)
+        )
+
+        items = response['Items']
+        print(items[0]['password'])
+        if password == items[0]['password']:
+
+            return render_template("index.html")
+    return render_template("login.html")
+
+
 if __name__ == '__main__':
     app.run(debug=True, host="0.0.0.0", port=5001)
