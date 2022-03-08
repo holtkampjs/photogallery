@@ -23,6 +23,7 @@ SOFTWARE.
 '''
 
 #!flask/bin/python
+from distutils.log import error
 from flask import Flask, jsonify, abort, request, make_response, url_for
 from flask import render_template, redirect, session
 import os
@@ -207,7 +208,7 @@ def register():
             if 'username' in session:
                 session.pop('username', None)
             return redirect('/login')
-    return redirect('/signup')
+    return render_template('signup.html', error="Passwords don't match")
 
 @app.route('/login')
 def login():

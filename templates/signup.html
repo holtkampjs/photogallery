@@ -11,6 +11,9 @@
 </head>
 
 <body>
+  {% if error %}
+    <div class="alert alert-danger" style="width:500px;text-align: center;">{{ error }}</div>
+  {% endif %}
 
   <form method="POST" action = "/register">
   <div class="container" style = "width: 400px; float:left; height:250px; margin:10px">
