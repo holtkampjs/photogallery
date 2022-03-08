@@ -34,6 +34,7 @@ import exifread
 import json
 
 app = Flask(__name__, static_url_path="")
+app.secret_key = 'foo'
 
 UPLOAD_FOLDER = os.path.join(app.root_path,'media')
 ALLOWED_EXTENSIONS = set(['png', 'jpg', 'jpeg'])
@@ -216,7 +217,6 @@ def check():
         return redirect('/')
 
     if request.method == 'POST':
-
         username = request.form['username']
         password = request.form['password']
 
@@ -225,15 +225,14 @@ def check():
             FilterExpression=Attr('username').eq(username) & Attr('password').eq(password)
         )
 
-        items = response['Items']
-        print(items[0]['password'])
-        if password == items[0]['password']:
-            session['username'] = username
-            return redirect('/')
-        )
+        if 'Items' in response and len(response['Items']) == 1:
+            if 'password' in response['Items'][0]:
+                if password == response['Items'][0]['password']:
+                    session['username'] = username
+                    return redirect('/')
 
-        if len(response['Items']) > 0:
-           return redirect('/')
+#        if len(response['Items']) > 0:
+#           return redirect('/')
     return redirect('/login')
 
 
