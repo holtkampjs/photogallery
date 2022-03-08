@@ -11,6 +11,11 @@
 </head>
 
 <body>
+  {% if error %}
+  <div class="alert alert-danger" style="width:500px;text-align: center;" role="alert">
+    {{ error }}
+  </div>
+  {% endif %}
   <form id="login" method="post" action="/check">
     <div class="container" style = "width: 400px; float:left; height:250px; margin:10px">
       <h1>Login Page</h1><br>
