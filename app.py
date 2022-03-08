@@ -24,7 +24,7 @@ SOFTWARE.
 
 #!flask/bin/python
 from flask import Flask, jsonify, abort, request, make_response, url_for
-from flask import render_template, redirect
+from flask import render_template, redirect, session
 import os
 import boto3
 import time
@@ -92,6 +92,9 @@ def s3uploading(filename, filenameWithPath):
 
 @app.route('/', methods=['GET', 'POST'])
 def home_page():
+    if not 'username' in session:
+        return redirect('/login')
+
     response = table.scan()
 
     items = response['Items']
@@ -142,6 +145,9 @@ def add_photo():
 
 @app.route('/<int:photoID>', methods=['GET'])
 def view_photo(photoID):
+    if not 'username' in session:
+        return redirect('/')
+
     response = table.scan(
         FilterExpression=Attr('PhotoID').eq(str(photoID))
     )
@@ -156,6 +162,9 @@ def view_photo(photoID):
 
 @app.route('/search', methods=['GET'])
 def search_page():
+    if not 'username' in session:
+        return redirect('/')
+
     query = request.args.get('query', None)
 
     response = table.scan(
@@ -169,6 +178,8 @@ def search_page():
 
 @app.route('/signup')
 def signup():
+    if 'username' in session:
+        return redirect('/')
     return render_template('signup.html')
 
 @app.route('/register', methods=['POST'])
@@ -179,39 +190,46 @@ def register():
         password_repeat = request.form['psw-repeat']
 
         if password == password_repeat:
-            table2 = dynamodb.Table('users')
+            user_table = dynamodb.Table('users')
             ts=time.time()
-            table2.put_item(
+            user_table.put_item(
                 Item={
                     'userID': str(int(ts*1000)),
                     'username': username,
                     'password': password
                 }
             )
+            if 'username' in session:
+                session.pop('username', None)
             return redirect('/login')
     return redirect('/signup')
 
 @app.route('/login')
 def login():
+    if 'username' in session:
+        return redirect('/')
     return render_template('login.html')
 
 @app.route('/check', methods = ['POST'])
 def check():
+    if 'username' in session:
+        return redirect('/')
+
     if request.method == 'POST':
 
         username = request.form['username']
         password = request.form['password']
 
-        table2 = dynamodb.Table('users')
-        response = table2.query(
+        user_table = dynamodb.Table('users')
+        response = user_table.query(
             FilterExpression=Attr('username').eq(username)
         )
 
         items = response['Items']
         print(items[0]['password'])
         if password == items[0]['password']:
-
-           return redirect('/')
+            session['username'] = username
+            return redirect('/')
     return redirect('/login')
 
 
