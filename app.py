@@ -204,13 +204,10 @@ def check():
 
         table2 = dynamodb.Table('users')
         response = table2.scan(
-            FilterExpression=Attr('username').eq(username)
+            FilterExpression=Attr('username').eq(username) & Attr('password').eq(password)
         )
 
-        items = response['Items']
-        print(items[0]['password'])
-        if password == items[0]['password']:
-
+        if len(response['Items']) > 0:
            return redirect('/')
     return redirect('/login')
 
