@@ -172,17 +172,15 @@ def signup():
     return render_template('signup.html')
 
 @app.route('/register', methods=['POST'])
-def signup():
+def register():
     if request.method == 'POST':
         username = request.form['username']
         password = request.form['password']
         password_repeat = request.form['psw-repeat']
 
         if password == password_repeat:
-    
             table2 = dynamodb.Table('users')
-            ts=time.time() 
-            
+            ts=time.time()
             table2.put_item(
                 Item={
                     'userID': str(int(ts*1000)),
@@ -190,8 +188,8 @@ def signup():
                     'password': password
                 }
             )
-            return render_template('login.html')
-    return render_template('signup.html')
+            return redirect('/login')
+    return redirect('/signup')
 
 @app.route('/login')
 def login():
@@ -205,16 +203,16 @@ def check():
         password = request.form['password']
 
         table2 = dynamodb.Table('users')
-        response = table.query(
-            KeyConditionExpression=Key('username').eq(username)
+        response = table2.query(
+            FilterExpression=Attr('username').eq(username)
         )
 
         items = response['Items']
         print(items[0]['password'])
         if password == items[0]['password']:
 
-            return render_template("index.html")
-    return render_template("login.html")
+           return redirect('/')
+    return redirect('/login')
 
 
 if __name__ == '__main__':
